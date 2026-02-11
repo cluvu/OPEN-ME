@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>To Alanaa my babyyy</title>
+
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #ffe6f0, #fff0f6);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Loading screen */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff66a3, #ff1a75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 10000;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* Main container */
+.container {
+  background: white;
+  padding: 40px 50px 60px 50px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+  width: 400px;
+  text-align: center;
+  position: relative;
+  display: none; /* hide initially */
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #d6336c;
+  margin-bottom: 40px;
+}
+
+button {
+  font-size: 1.2rem;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+  transition: background-color 0.3s ease;
+  position: fixed;
+  display: none; /* hide initially */
+}
+
+.yes-btn {
+  background: #ff4d94;
+  color: white;
+}
+
+.yes-btn:hover {
+  background: #e60073;
+}
+
+.no-btn {
+  background: #ffd6e8;
+  color: #d6336c;
+  z-index: 1000;
+  transition: left 0.25s ease, top 0.25s ease, background-color 0.3s ease;
+}
+
+.no-btn:hover {
+  background: #ffb3d9;
+}
+
+.love-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff66a3, #ff1a75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 3rem;
+  font-weight: bold;
+  z-index: 9999;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <img src="bear-love.gif" alt="image" class="loading-image" />
+  <div class="loading-text">Preparing Your Valentine...💖</div>
+</div>
+
+<style>
+/* Dramatic Loading Animation for Image */
+.loading-image {
+  width: 200px; /* adjust size as needed */
+  height: 200px; /* optional */
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 10px #ff4d94); }
+  50% { transform: scale(1.3); filter: drop-shadow(0 0 30px #ff1a75); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 10px #ff4d94); }
+}
+
+.loading-text {
+  font-size: 2rem;
+  margin-top: 20px;
+  animation: glow 2.5s infinite alternate;
+  text-align: center;
+}
+
+@keyframes glow {
+  0% { color: #fff; text-shadow: 0 0 5px #fff; }
+  50% { color: #ff99cc; text-shadow: 0 0 20px #ff66a3, 0 0 30px #ff1a75; }
+  100% { color: #fff; text-shadow: 0 0 5px #fff; }
+}
+</style>
+
+
+
+<!-- Main Valentine Proposal -->
+<div class="container" id="mainContainer">
+  <h1>Will you be my Valentine?</h1>
+</div>
+
+<button class="yes-btn" id="yesBtn">Yes</button>
+<button class="no-btn" id="noBtn">No</button>
+
+<script>
+const loadingScreen = document.getElementById('loadingScreen');
+const mainContainer = document.getElementById('mainContainer');
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+
+let isMoving = false;
+const threshold = 120;
+
+// Show loading screen for 1 second
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    loadingScreen.style.display = 'none';
+    mainContainer.style.display = 'block';
+    yesBtn.style.display = 'block';
+    noBtn.style.display = 'block';
+
+    // Set initial positions of buttons
+    yesBtn.style.left = "850px"; // horizontal position of Yes
+    yesBtn.style.top = "550px";  // vertical position of Yes
+
+    noBtn.style.left = "1000px";  // horizontal position of No
+    noBtn.style.top = "550px";   // vertical position of No
+  }, 5000); // 1 second
+});
+
+/* Smooth sliding movement */
+function moveNoButtonRandom() {
+  if (isMoving) return;
+  isMoving = true;
+
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+  const padding = 20;
+
+  const maxX = window.innerWidth - btnWidth - padding;
+  const maxY = window.innerHeight - btnHeight - padding;
+
+  const newX = Math.random() * maxX;
+  const newY = Math.random() * maxY;
+
+  noBtn.style.left = newX + "px";
+  noBtn.style.top = newY + "px";
+
+  setTimeout(() => {
+    isMoving = false;
+  }, 250);
+}
+
+// Detect cursor near No button
+window.addEventListener("mousemove", (e) => {
+  const rect = noBtn.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+
+  const dx = e.clientX - centerX;
+  const dy = e.clientY - centerY;
+  const distance = Math.sqrt(dx*dx + dy*dy);
+
+  if (distance < threshold) {
+    moveNoButtonRandom();
+  }
+});
+
+/* Love screen */
+yesBtn.addEventListener('click', () => {
+  const loveScreen = document.createElement('div');
+  loveScreen.classList.add('love-screen');
+  
+  // Main message and image
+  loveScreen.innerHTML = `
+    <div style="font-size:3rem; margin-bottom:20px;">YAY now you're all mineeee ❤️</div>
+    Cant wait for valentines
+    <img src="shake-guinea.gif" alt="image" style="width:200px; height:200px; margin-bottom:20px;" id="loveImage">
+  `;
+  
+  document.body.appendChild(loveScreen);
+
+  // Add the smaller message after 2 seconds
+  setTimeout(() => {
+    const message = document.createElement('div');
+    message.style.fontSize = "1.5rem";
+    message.style.marginTop = "10px";
+    message.textContent = "Ik i took foreverrrr";
+    loveScreen.appendChild(message);
+  }, 2000);
+});
+
+</script>
+
+</body>
+</html>
